@@ -1,61 +1,56 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "teacher")
-public class Teacher {
+public class Teacher implements Serializable {
 
-    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Integer id;
+
     @Column(name = "first_name")
-    private String first_name;
+    @Getter
+    @Setter
+    private String firstName;
+
     @Column(name = "second_name")
-    private String second_name;
+    @Getter
+    @Setter
+    private String secondName;
+
     @Column(name = "age")
+    @Getter
+    @Setter
     private Integer age;
+
     @Column(name = "email")
+    @Getter
+    @Setter
     private String email;
 
-    public Integer getId() {
-        return id;
+    @OneToMany(mappedBy="teacher", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @Getter
+    @Setter
+    private transient List<Subject> subjectList;
+
+    public Teacher() {
+
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getFirst_name() {
-        return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getSecond_name() {
-        return second_name;
-    }
-
-    public void setSecond_name(String second_name) {
-        this.second_name = second_name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
+    public Teacher(String firstName, String secondName, Integer age, String email) {
+        this.firstName = firstName;
+        this.secondName = secondName;
         this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 }

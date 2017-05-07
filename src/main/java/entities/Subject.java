@@ -1,61 +1,56 @@
 package entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "subject")
 public class Subject {
 
-    @Column(name="id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     private Integer id;
+
     @Column(name="name")
+    @Getter
+    @Setter
     private String name;
+
     @Column(name="subject_group")
-    private String subject_group;
+    @Getter
+    @Setter
+    private String subjectGroup;
+
     @Column(name="pass_score")
-    private Integer pass_score;
-    @Column(name="teacher")
-    private Integer teacher;
+    @Getter
+    @Setter
+    private Integer passScore;
 
-    public Integer getId() {
-        return id;
+    @ManyToOne
+    @JoinColumn(name = "teacher")
+    @Getter
+    @Setter
+    private Teacher teacher;
+
+//    @Getter
+//    @Setter
+//    @Column(name = "teacher")
+//    private Integer teacherId;
+
+    public Subject() {
+
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Subject(String name, String subjectGroup, Integer passScore, Teacher teacher) {
         this.name = name;
-    }
-
-    public String getSubject_group() {
-        return subject_group;
-    }
-
-    public void setSubject_group(String subject_group) {
-        this.subject_group = subject_group;
-    }
-
-    public Integer getPass_score() {
-        return pass_score;
-    }
-
-    public void setPass_score(Integer pass_score) {
-        this.pass_score = pass_score;
-    }
-
-    public Integer getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(Integer teacher) {
+        this.subjectGroup = subjectGroup;
+        this.passScore = passScore;
         this.teacher = teacher;
     }
 }

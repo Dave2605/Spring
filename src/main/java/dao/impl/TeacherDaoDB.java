@@ -1,7 +1,6 @@
 package dao.impl;
 
-import dao.SubjectDao;
-import entities.Subject;
+import dao.TeacherDao;
 import entities.Teacher;
 import exceptions.DataFetchingException;
 import org.hibernate.Session;
@@ -13,49 +12,48 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class SubjectDaoDB implements SubjectDao {
+public class TeacherDaoDB implements TeacherDao {
 
     @Autowired
     SessionFactory sessionFactory;
 
     Session session;
 
-    public List<Subject> getAll() throws DataFetchingException {
-        List<Subject> subjectList;
+    public List<Teacher> getAll() throws DataFetchingException {
+        List<Teacher> teacherList;
         try {
             session = sessionFactory.openSession();
-            subjectList = session.createQuery("FROM Subject ").list();
+            teacherList = session.createQuery("FROM Teacher ").list();
             session.close();
         } catch (Exception e) {
             session.close();
             throw new DataFetchingException();
         }
-        return subjectList;
+        return teacherList;
     }
 
-    public Subject getSubject(Integer id) throws DataFetchingException {
-        Subject subject;
+    public Teacher getTeacher(Integer id) throws DataFetchingException {
+        Teacher teacher;
         try {
             session = sessionFactory.openSession();
-            subject = (Subject) session.get(Subject.class, id);
+            teacher = (Teacher) session.get(Teacher.class, id);
             session.close();
         } catch (Exception e) {
             session.close();
             throw new DataFetchingException();
         }
-        return subject;
+        return teacher;
     }
 
-    public void createSubject(String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
+    public void createTeacher(String firstName, String secondName, Integer age, String email) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
 
-            Teacher teacher = session.get(Teacher.class, teacherId);
-            Subject subject = new Subject(name, subjectGroup, passScore, teacher);
+            Teacher teacher = new Teacher(firstName, secondName, age, email);
 
             Transaction transaction = session.beginTransaction();
 
-            session.save(subject);
+            session.save(teacher);
             transaction.commit();
             session.close();
         } catch (Exception e) {
@@ -64,19 +62,17 @@ public class SubjectDaoDB implements SubjectDao {
         }
     }
 
-    public void updateSubject(Integer id, String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
+    public void updateTeacher(Integer id, String firstName, String secondName, Integer age, String email) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
-
-            Teacher teacher = session.get(Teacher.class, teacherId);
-            Subject subject = session.load(Subject.class, id);
+            Teacher teacher = session.load(Teacher.class, id);
 
             Transaction transaction = session.beginTransaction();
 
-            subject.setName(name);
-            subject.setSubjectGroup(subjectGroup);
-            subject.setPassScore(passScore);
-            subject.setTeacher(teacher);
+            teacher.setFirstName(firstName);
+            teacher.setSecondName(secondName);
+            teacher.setAge(age);
+            teacher.setEmail(email);
 
             transaction.commit();
             session.close();
@@ -86,13 +82,13 @@ public class SubjectDaoDB implements SubjectDao {
         }
     }
 
-    public void deleteSubject(Integer id) throws DataFetchingException {
+    public void deleteTeacher(Integer id) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
-            Subject subject = session.load(Subject.class, id);
+            Teacher teacher = session.load(Teacher.class, id);
 
             Transaction transaction = session.beginTransaction();
-            session.delete(subject);
+            session.delete(teacher);
             transaction.commit();
 
             session.close();

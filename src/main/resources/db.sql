@@ -15,7 +15,7 @@ CREATE TABLE subject (
   subject_group VARCHAR(40),
   pass_score INT,
   teacher INT,
-  FOREIGN KEY (teacher) REFERENCES teacher(id)
+  FOREIGN KEY (teacher) REFERENCES teacher(id) ON DELETE SET NULL
 );
 
 INSERT INTO teacher VALUES (1, 'Michael', 'Green', 35, 'Michael_Green@gmail.com');

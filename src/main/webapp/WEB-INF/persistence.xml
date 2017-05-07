@@ -1,0 +1,19 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    <persistence-unit name="sample">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/DefaultDS</jta-data-source>
+        <class>entities.Teacher</class>
+        <class>entities.Subject</class>
+        <!--<properties>-->
+            <!--<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>-->
+            <!--<property name="hibernate.connection.password">root</property>-->
+            <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/spring_lab<</property>-->
+            <!--<property name="hibernate.connection.username">root</property>-->
+            <!--<property name="hibernate.default_schema">XXXXXX</property>-->
+            <!--<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>-->
+        <!--</properties>-->
+    </persistence-unit>
+</persistence>
