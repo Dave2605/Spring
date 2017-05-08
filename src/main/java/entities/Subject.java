@@ -1,10 +1,5 @@
 package entities;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Service;
-
 import javax.persistence.*;
 
 @Entity
@@ -13,35 +8,20 @@ public class Subject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Integer id;
 
     @Column(name="name")
-    @Getter
-    @Setter
     private String name;
 
     @Column(name="subject_group")
-    @Getter
-    @Setter
     private String subjectGroup;
 
     @Column(name="pass_score")
-    @Getter
-    @Setter
     private Integer passScore;
 
     @ManyToOne
     @JoinColumn(name = "teacher")
-    @Getter
-    @Setter
     private Teacher teacher;
-
-//    @Getter
-//    @Setter
-//    @Column(name = "teacher")
-//    private Integer teacherId;
 
     public Subject() {
 
@@ -52,5 +32,45 @@ public class Subject {
         this.subjectGroup = subjectGroup;
         this.passScore = passScore;
         this.teacher = teacher;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSubjectGroup() {
+        return subjectGroup;
+    }
+
+    public Integer getPassScore() {
+        return passScore;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSubjectGroup(String subjectGroup) {
+        this.subjectGroup = subjectGroup;
+    }
+
+    public void setPassScore(Integer passScore) {
+        this.passScore = passScore;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
     }
 }

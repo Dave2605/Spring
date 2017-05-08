@@ -6,12 +6,14 @@ import entities.Teacher;
 import exceptions.DataFetchingException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import util.annotations.Loggable;
 
 import java.util.List;
 
+@Loggable
 @Repository
 public class SubjectDaoDB implements SubjectDao {
 
@@ -46,6 +48,7 @@ public class SubjectDaoDB implements SubjectDao {
         return subject;
     }
 
+    @Transactional
     public void createSubject(String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
@@ -53,10 +56,7 @@ public class SubjectDaoDB implements SubjectDao {
             Teacher teacher = session.get(Teacher.class, teacherId);
             Subject subject = new Subject(name, subjectGroup, passScore, teacher);
 
-            Transaction transaction = session.beginTransaction();
-
             session.save(subject);
-            transaction.commit();
             session.close();
         } catch (Exception e) {
             session.close();
@@ -64,6 +64,7 @@ public class SubjectDaoDB implements SubjectDao {
         }
     }
 
+    @Transactional
     public void updateSubject(Integer id, String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
@@ -71,14 +72,11 @@ public class SubjectDaoDB implements SubjectDao {
             Teacher teacher = session.get(Teacher.class, teacherId);
             Subject subject = session.load(Subject.class, id);
 
-            Transaction transaction = session.beginTransaction();
-
             subject.setName(name);
             subject.setSubjectGroup(subjectGroup);
             subject.setPassScore(passScore);
             subject.setTeacher(teacher);
 
-            transaction.commit();
             session.close();
         } catch (Exception e) {
             session.close();
@@ -86,15 +84,13 @@ public class SubjectDaoDB implements SubjectDao {
         }
     }
 
+    @Transactional
     public void deleteSubject(Integer id) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
             Subject subject = session.load(Subject.class, id);
 
-            Transaction transaction = session.beginTransaction();
             session.delete(subject);
-            transaction.commit();
-
             session.close();
         } catch (Exception e) {
             session.close();

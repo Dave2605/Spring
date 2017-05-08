@@ -1,4 +1,4 @@
-package util;
+package util.springConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,8 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"rest, dao"})
-//@EnableAspectJAutoProxy
+@ComponentScan(basePackages = "rest")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     @Bean
@@ -20,7 +19,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
-        //make all Spring beans in the application context accessible as request attributes
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }

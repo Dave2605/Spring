@@ -1,31 +1,29 @@
-//package util.aop;
-//
-//import org.aspectj.lang.annotation.Before;
-//
-////@Aspect
-//public class Logger {
-//
-//
-//   // private org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Logger.class);
-//
-//        @Before("execution(* rest.SubjectController(..)) && @annotation(Loggable)")
-//        public void around() {
-//
-//            System.out.println("jkjkjkj");
-//
-//
-//
-////            long start = System.currentTimeMillis();
-////            Object result = point.proceed();
-////            Logger.info(
-////                    "#%s(%s): %s in %[msec]s",
-////                    MethodSignature.class.cast(point.getSignature()).getMethod().getName(),
-////                    point.getArgs(),
-////                    result,
-////                    System.currentTimeMillis() - start
-////            );
-////            return result;
-//    }
-//}
-//
-//
+package util.aop;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class Logger {
+
+    private org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Logger.class);
+    private long start, end;
+
+    @Before("execution(* *(..)) && @annotation(util.annotations.Loggable)")
+    public void before(JoinPoint joinPoint) {
+        start = System.nanoTime();
+        log.info(joinPoint.getSignature() + " AOP log: Started...");
+    }
+
+    @After("execution(* *(..)) && @annotation(util.annotations.Loggable)")
+    public void after(JoinPoint joinPoint) {
+        end = System.nanoTime();
+        log.info(joinPoint.getSignature() + " AOP log: Finished. Execution time = " + (end-start));
+    }
+}
+
+

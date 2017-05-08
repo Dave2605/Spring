@@ -2,6 +2,7 @@ package dao;
 
 import entities.Teacher;
 import exceptions.DataFetchingException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

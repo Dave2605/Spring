@@ -1,9 +1,8 @@
-package util;
+package util.springConfig;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
-public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
+public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[] { RootConfig.class };

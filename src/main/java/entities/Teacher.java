@@ -1,10 +1,8 @@
 package entities;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,33 +12,25 @@ public class Teacher implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Integer id;
 
+    @Size(min = 2, max = 30)
     @Column(name = "first_name")
-    @Getter
-    @Setter
     private String firstName;
 
+    @Size(min = 2, max = 30)
     @Column(name = "second_name")
-    @Getter
-    @Setter
     private String secondName;
 
+    @NotNull
     @Column(name = "age")
-    @Getter
-    @Setter
     private Integer age;
 
     @Column(name = "email")
-    @Getter
-    @Setter
     private String email;
 
+    @NotNull
     @OneToMany(mappedBy="teacher", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-    @Getter
-    @Setter
     private transient List<Subject> subjectList;
 
     public Teacher() {
@@ -52,5 +42,54 @@ public class Teacher implements Serializable {
         this.secondName = secondName;
         this.age = age;
         this.email = email;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSubjectList(List<Subject> subjectList) {
+        this.subjectList = subjectList;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public List<Subject> getSubjectList() {
+        return subjectList;
+    }
+
+    public String getSecondName() {
+        return secondName;
+
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

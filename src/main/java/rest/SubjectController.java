@@ -15,6 +15,7 @@ import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+
 @RestController
 @RequestMapping(value = "/subject")
 public class SubjectController {
@@ -41,7 +42,7 @@ public class SubjectController {
     }
 
     @RequestMapping(method = GET)
-    public ModelAndView getSubject(String id) {
+    public ModelAndView get(String id) {
         List<Teacher> teachers = null;
         Subject subject = null;
         String resultView = "editSubject";
@@ -59,7 +60,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "create", method = POST)
-    public ModelAndView createSubject(String name, String subjectGroup, String passScore, Integer teacherId) {
+    public ModelAndView create(String name, String subjectGroup, String passScore, Integer teacherId) {
        List<Subject> subjects = null;
        String resultView = "showSubjects";
         try {
@@ -75,7 +76,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "update", method = POST)
-    public ModelAndView updateSubject(String id, String name, String subjectGroup, String passScore, String teacherId) {
+    public ModelAndView update(String id, String name, String subjectGroup, String passScore, String teacherId) {
         List<Subject> subjects = null;
         String resultView = "showSubjects";
         try {
@@ -92,7 +93,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "delete", method = POST)
-    public ModelAndView deleteSubject(String id) {
+    public ModelAndView delete(String id) {
         List<Subject> subjects = null;
         String resultView = "showSubjects";
         try {
