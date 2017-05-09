@@ -5,6 +5,7 @@ import entities.Teacher;
 import exceptions.DataFetchingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class TeacherService {
         teacherDao.createTeacher(firstName, secondName, age, email);
     }
 
+    @Transactional
     public void updateTeacher(Integer id, String firstName, String secondName, Integer age, String email)
             throws DataFetchingException {
         teacherDao.updateTeacher(id, firstName, secondName, age, email);

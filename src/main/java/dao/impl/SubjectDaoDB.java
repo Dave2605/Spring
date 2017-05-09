@@ -48,7 +48,6 @@ public class SubjectDaoDB implements SubjectDao {
         return subject;
     }
 
-    @Transactional
     public void createSubject(String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();

@@ -47,7 +47,6 @@ public class TeacherDaoDB implements TeacherDao {
         return teacher;
     }
 
-    @Transactional
     public void createTeacher(String firstName, String secondName, Integer age, String email) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
@@ -66,7 +65,7 @@ public class TeacherDaoDB implements TeacherDao {
     public void updateTeacher(Integer id, String firstName, String secondName, Integer age, String email) throws DataFetchingException {
         try {
             session = sessionFactory.openSession();
-            Teacher teacher = session.load(Teacher.class, id);
+            Teacher teacher = (Teacher) session.load(Teacher.class, id);
 
           //  Transaction t = session.beginTransaction();
 
