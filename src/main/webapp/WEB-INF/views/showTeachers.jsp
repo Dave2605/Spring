@@ -29,7 +29,7 @@
 
 <p/>
 
-<form action="/teacher" method="get">
+<form action="/teacher/update" method="get">
     <input type="text" name="id"/>
     <input type="submit" value="Edit Teacher">
 </form>

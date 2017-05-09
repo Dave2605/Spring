@@ -68,10 +68,13 @@ public class TeacherDaoDB implements TeacherDao {
             session = sessionFactory.openSession();
             Teacher teacher = session.load(Teacher.class, id);
 
+          //  Transaction t = session.beginTransaction();
+
             teacher.setFirstName(firstName);
             teacher.setSecondName(secondName);
             teacher.setAge(age);
             teacher.setEmail(email);
+        //    t.commit();
 
             session.close();
         } catch (Exception e) {

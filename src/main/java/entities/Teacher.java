@@ -1,8 +1,10 @@
 package entities;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,22 +16,23 @@ public class Teacher implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Size(min = 2, max = 30)
+    @NotEmpty(message = "Please enter teacher first name.")
     @Column(name = "first_name")
     private String firstName;
 
-    @Size(min = 2, max = 30)
+    @NotEmpty(message = "Please enter teacher second name")
     @Column(name = "second_name")
     private String secondName;
 
-    @NotNull
+    @NotNull(message = "Please enter teacher age")
     @Column(name = "age")
     private Integer age;
 
+    @NotEmpty(message = "Please enter teacher email")
+    @Email
     @Column(name = "email")
     private String email;
 
-    @NotNull
     @OneToMany(mappedBy="teacher", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     private transient List<Subject> subjectList;
 
