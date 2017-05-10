@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<form:form action="update" method="post" commandName="teacher">
+<form:form action="" method="post" commandName="teacher">
     <input type="text" name="id" value="${teacher.id}" readonly/><br>
     <input type="text" name="firstName" value="${teacher.firstName}"/>
     <form:errors path="firstName" cssClass="error"/><br>
@@ -24,6 +24,6 @@
     <input type="submit" value="Edit Teacher">
 </form:form>
 <p/>
-<form action="subject/getAll"><input type="submit" value="Back to Teachers"></form>
+<form action="subject/all"><input type="submit" value="Back to Teachers"></form>
 </body>
 </html>

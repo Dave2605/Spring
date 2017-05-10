@@ -4,29 +4,32 @@
 <html>
 <head>
     <title>Edit Subject</title>
+    <style>
+        .error {
+            color: red; font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-<form action="subject/update" method="post">
+<form:form action="subject/update" method="post" commandName="subject">
     <input type="text" name="id" value="${subject.id}" readonly/><br>
-    <input type="text" name="name" value="${subject.name}"/><br>
-    <input type="text" name="subjectGroup" value="${subject.subjectGroup}"/><br>
-    <input type="text" name="passScore" value="${subject.passScore}"/><br>
+    <input type="text" name="name" value="${subject.name}"/>
+    <form:errors path="name" cssClass="error"/><br>
+    <input type="text" name="subjectGroup" value="${subject.subjectGroup}"/>
+    <form:errors path="subjectGroup" cssClass="error"/><br>
+    <input type="text" name="passScore" value="${subject.passScore}"/>
+    <form:errors path="passScore" cssClass="error"/><br>
     <tr><td>
-        <form:select name="teacherId" path="teachers">
-            <option value="${subject.teacher.id}">Select Teacher</option>
+        <form:select name="teacherId" path="teacherId">
             <c:forEach var="teacher" items="${teachers}">
-                <form:option value="${teacher.id}"><c:out value="${teacher.firstName} ${teacher.secondName}"/></form:option>
+                <form:option value="${teacher.id}"><c:out value="${teacher.secondName} ${teacher.firstName}"/></form:option>
             </c:forEach>
         </form:select>
     </td></tr>
-
     <p/>
-
     <input type="submit" value="Edit Subject">
-</form>
-
+</form:form>
 <p/>
-
-<form action="subject/getAll"><input type="submit" value="Back to Subjects"></form>
+<form action="subject/get"><input type="submit" value="Back to Subjects"></form>
 </body>
 </html>

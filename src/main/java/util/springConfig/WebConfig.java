@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"rest"})
+@ComponentScan(basePackages = {"rest, dao, service"})
 @EnableTransactionManagement
 public class WebConfig extends WebMvcConfigurerAdapter {
 

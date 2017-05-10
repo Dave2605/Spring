@@ -1,7 +1,6 @@
 package util.springConfig;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -15,11 +14,9 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = {"service, dao"},
         excludeFilters = {@ComponentScan.Filter(type= FilterType.ANNOTATION, value = EnableWebMvc.class)})
-//@ImportResource("classpath:applicationContext.xml")
 @EnableAspectJAutoProxy
 @EnableTransactionManagement
 public class RootConfig {
-
 
     @Bean
     public DataSource dataSource() {
@@ -41,7 +38,6 @@ public class RootConfig {
     }
 
     @Bean
-    @Autowired
     public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager txManager
                 = new HibernateTransactionManager();

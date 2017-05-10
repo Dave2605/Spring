@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import util.annotations.Loggable;
 
 import java.util.List;
@@ -25,11 +24,9 @@ public class SubjectDaoDB implements SubjectDao {
     public List<Subject> getAll() throws DataFetchingException {
         List<Subject> subjectList;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             subjectList = session.createQuery("FROM Subject ").list();
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
         return subjectList;
@@ -38,61 +35,51 @@ public class SubjectDaoDB implements SubjectDao {
     public Subject getSubject(Integer id) throws DataFetchingException {
         Subject subject;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             subject = (Subject) session.get(Subject.class, id);
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
         return subject;
     }
 
-    public void createSubject(String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
+    public void createSubject(Subject subject) throws DataFetchingException {
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
 
-            Teacher teacher = session.get(Teacher.class, teacherId);
-            Subject subject = new Subject(name, subjectGroup, passScore, teacher);
-
-            session.save(subject);
-            session.close();
-        } catch (Exception e) {
-            session.close();
-            throw new DataFetchingException();
-        }
-    }
-
-    @Transactional
-    public void updateSubject(Integer id, String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException {
-        try {
-            session = sessionFactory.openSession();
-
-            Teacher teacher = session.get(Teacher.class, teacherId);
-            Subject subject = session.load(Subject.class, id);
-
-            subject.setName(name);
-            subject.setSubjectGroup(subjectGroup);
-            subject.setPassScore(passScore);
+            Teacher teacher = session.get(Teacher.class, subject.getTeacherId());
             subject.setTeacher(teacher);
 
-            session.close();
+            session.save(subject);
         } catch (Exception e) {
             session.close();
             throw new DataFetchingException();
         }
     }
 
-    @Transactional
+    public void updateSubject(Subject subject) throws DataFetchingException {
+        try {
+            session = sessionFactory.getCurrentSession();
+
+            Teacher teacher = session.get(Teacher.class, subject.getTeacherId());
+            Subject tmp = session.load(Subject.class, subject.getId());
+
+            tmp.setName(subject.getName());
+            tmp.setSubjectGroup(subject.getSubjectGroup());
+            tmp.setPassScore(subject.getPassScore());
+            tmp.setTeacher(teacher);
+
+        } catch (Exception e) {
+            throw new DataFetchingException();
+        }
+    }
+
     public void deleteSubject(Integer id) throws DataFetchingException {
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             Subject subject = session.load(Subject.class, id);
-
             session.delete(subject);
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
     }

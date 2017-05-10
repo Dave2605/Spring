@@ -15,25 +15,29 @@ public class TeacherService {
     @Autowired
     private TeacherDao teacherDao;
 
+    @Transactional
     public List<Teacher> getAll() throws DataFetchingException {
         return teacherDao.getAll();
     }
 
+    @Transactional
     public Teacher getTeacher(Integer id) throws DataFetchingException {
         return teacherDao.getTeacher(id);
     }
 
-    public void createTeacher(String firstName, String secondName, Integer age, String email)
+    @Transactional
+    public void createTeacher(Teacher teacher)
             throws DataFetchingException {
-        teacherDao.createTeacher(firstName, secondName, age, email);
+        teacherDao.createTeacher(teacher);
     }
 
     @Transactional
-    public void updateTeacher(Integer id, String firstName, String secondName, Integer age, String email)
+    public void updateTeacher(Teacher teacher)
             throws DataFetchingException {
-        teacherDao.updateTeacher(id, firstName, secondName, age, email);
+        teacherDao.updateTeacher(teacher);
     }
 
+    @Transactional
     public void deleteTeacher(Integer id) throws DataFetchingException {
         teacherDao.deleteTeacher(id);
     }

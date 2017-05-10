@@ -75,8 +75,7 @@ public class TeacherController {
             return error;
         }
         try {
-            teacherService.createTeacher(teacher.getFirstName(), teacher.getSecondName(), teacher.getAge(),
-                    teacher.getEmail());
+            teacherService.createTeacher(teacher);
         } catch (DataFetchingException e) {
             url = "error";
         }
@@ -102,13 +101,12 @@ public class TeacherController {
     public ModelAndView doUpdate(@Valid @ModelAttribute("teacher") Teacher teacher,
                                  BindingResult result) {
         ModelAndView error = new ModelAndView("editTeacher");
-        String url = "redirect:all";
+        String url = "redirect:/teacher/all";
         if (result.hasErrors()) {
             return error;
         }
         try {
-            teacherService.updateTeacher(teacher.getId(), teacher.getFirstName(), teacher.getSecondName(),
-                    teacher.getAge(), teacher.getEmail());
+            teacherService.updateTeacher(teacher);
         } catch (DataFetchingException e) {
             url = "error";
         }

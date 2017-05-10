@@ -11,9 +11,9 @@ public interface SubjectDao {
 
     Subject getSubject(Integer id) throws DataFetchingException;
 
-    void createSubject(String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException;
+    void createSubject(Subject subject) throws DataFetchingException;
 
-    void updateSubject(Integer id, String name, String subjectGroup, Integer passScore, Integer teacherId) throws DataFetchingException;
+    void updateSubject(Subject subject) throws DataFetchingException;
 
     void deleteSubject(Integer id) throws DataFetchingException;
 }

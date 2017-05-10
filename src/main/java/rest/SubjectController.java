@@ -4,17 +4,20 @@ import entities.Subject;
 import entities.Teacher;
 import exceptions.DataFetchingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import service.SubjectService;
 import service.TeacherService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
 
 @RestController
 @RequestMapping(value = "/subject")
@@ -26,7 +29,7 @@ public class SubjectController {
     @Autowired
     private TeacherService teacherService;
 
-    @RequestMapping(value = "/getAll", method = GET)
+    @RequestMapping(value = "/all", method = GET)
     public ModelAndView getAll() {
         List<Subject> subjects = null;
         String resultView = "showSubjects";
@@ -59,37 +62,75 @@ public class SubjectController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "create", method = POST)
-    public ModelAndView create(String name, String subjectGroup, String passScore, Integer teacherId) {
-       List<Subject> subjects = null;
-       String resultView = "showSubjects";
+    @RequestMapping(value = "create", method = GET)
+    public ModelAndView viewCreate() {
+        List<Teacher> teachers = null;
+        Subject subject = new Subject();
+        String url = "createSubject";
         try {
-            subjectService.createSubject(name, subjectGroup, Integer.valueOf(passScore), teacherId);
-            subjects = subjectService.getAll();
+            teachers = teacherService.getAll();
         } catch (DataFetchingException e) {
-            resultView = "error";
+            url = "error";
         }
-        ModelAndView modelAndView = new ModelAndView(resultView);
-        modelAndView.addObject("subjects", subjects);
+        ModelAndView modelAndView = new ModelAndView(url);
+        modelAndView.addObject("subject", subject);
+        modelAndView.addObject("teachers", teachers);
+        return modelAndView;
+    }
 
+    @RequestMapping(value = "create", method = POST)
+    public ModelAndView doCreate(@Valid @ModelAttribute("subject") Subject subject,
+                                 BindingResult result, Model model) {
+        List<Teacher> teachers = null;
+        String url = "redirect:all";
+        try {
+            teachers = teacherService.getAll();
+        } catch (DataFetchingException e) {
+            url = "error";
+        }
+        model.addAttribute("teachers", teachers);
+        ModelAndView error = new ModelAndView("createSubject");
+        if (result.hasErrors()) {
+            return error;
+        }
+        try {
+            subjectService.createSubject(subject);
+        } catch (DataFetchingException e) {
+            url = "error";
+        }
+        ModelAndView all = new ModelAndView(url);
+        return all;
+    }
+
+    @RequestMapping(value = "update", method = GET)
+    public ModelAndView viewUpdate(String id) {
+        Subject subject = null;
+        String url = "editSubject";
+        try {
+            subject = subjectService.getSubject(Integer.valueOf(id));
+        } catch (DataFetchingException e) {
+            url = "error";
+        }
+        ModelAndView modelAndView = new ModelAndView(url);
+        modelAndView.addObject("subject", subject);
         return modelAndView;
     }
 
     @RequestMapping(value = "update", method = POST)
-    public ModelAndView update(String id, String name, String subjectGroup, String passScore, String teacherId) {
-        List<Subject> subjects = null;
-        String resultView = "showSubjects";
-        try {
-            subjectService.updateSubject(Integer.valueOf(id), name, subjectGroup, Integer.valueOf(passScore),
-                    Integer.valueOf(teacherId));
-            subjects = subjectService.getAll();
-        } catch (DataFetchingException e) {
-            resultView = "error";
+    public ModelAndView doUpdate(@Valid @ModelAttribute("subject") Subject subject,
+                                 BindingResult result) {
+        ModelAndView error = new ModelAndView("editSubject");
+        String url = "redirect:/subject/all";
+        if (result.hasErrors()) {
+            return error;
         }
-        ModelAndView modelAndView = new ModelAndView(resultView);
-        modelAndView.addObject("subjects", subjects);
-
-        return modelAndView;
+        try {
+            subjectService.updateSubject(subject);
+        } catch (DataFetchingException e) {
+            url = "error";
+        }
+        ModelAndView all = new ModelAndView(url);
+        return all;
     }
 
     @RequestMapping(value = "delete", method = POST)

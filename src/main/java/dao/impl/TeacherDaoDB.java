@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import util.annotations.Loggable;
 
 import java.util.List;
@@ -23,11 +22,9 @@ public class TeacherDaoDB implements TeacherDao {
     public List<Teacher> getAll() throws DataFetchingException {
         List<Teacher> teacherList;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             teacherList = session.createQuery("FROM Teacher ").list();
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
         return teacherList;
@@ -37,61 +34,45 @@ public class TeacherDaoDB implements TeacherDao {
     public Teacher getTeacher(Integer id) throws DataFetchingException {
         Teacher teacher;
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             teacher = (Teacher) session.get(Teacher.class, id);
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
         return teacher;
     }
 
-    public void createTeacher(String firstName, String secondName, Integer age, String email) throws DataFetchingException {
+    public void createTeacher(Teacher teacher) throws DataFetchingException {
         try {
-            session = sessionFactory.openSession();
-
-            Teacher teacher = new Teacher(firstName, secondName, age, email);
-
-            session.save(teacher);
-            session.close();
+            session = sessionFactory.getCurrentSession();
+            Teacher tmp = teacher;
+            session.save(tmp);
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
     }
 
-    @Transactional
-    public void updateTeacher(Integer id, String firstName, String secondName, Integer age, String email) throws DataFetchingException {
+    public void updateTeacher(Teacher teacher) throws DataFetchingException {
         try {
-            session = sessionFactory.openSession();
-            Teacher teacher = (Teacher) session.load(Teacher.class, id);
+            session = sessionFactory.getCurrentSession();
+            Teacher tmp = session.load(Teacher.class, teacher.getId());
 
-          //  Transaction t = session.beginTransaction();
-
-            teacher.setFirstName(firstName);
-            teacher.setSecondName(secondName);
-            teacher.setAge(age);
-            teacher.setEmail(email);
-        //    t.commit();
-
-            session.close();
+            tmp.setFirstName(teacher.getFirstName());
+            tmp.setSecondName(teacher.getSecondName());
+            tmp.setAge(teacher.getAge());
+            tmp.setEmail(teacher.getEmail());
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
     }
 
-    @Transactional
     public void deleteTeacher(Integer id) throws DataFetchingException {
         try {
-            session = sessionFactory.openSession();
+            session = sessionFactory.getCurrentSession();
             Teacher teacher = session.load(Teacher.class, id);
 
             session.delete(teacher);
-            session.close();
         } catch (Exception e) {
-            session.close();
             throw new DataFetchingException();
         }
     }
