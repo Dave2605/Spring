@@ -26,9 +26,7 @@
         </tr>
     </c:forEach>
 </table>
-
 <p/>
-
 <form action="/subject" method="get">
     <input type="text" name="id"/>
     <input type="submit" value="Edit Subject">
@@ -38,9 +36,7 @@
     <input type="text" name="id"/>
     <input type="submit" value="Delete Subject">
 </form>
-
 <p/>
-
 <form action="/"><input type="submit" value="Back to Main Page"></form>
 </body>
 </html>

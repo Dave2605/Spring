@@ -26,21 +26,16 @@
         </tr>
     </c:forEach>
 </table>
-
 <p/>
-
 <form action="/teacher/update/" method="get">
     <input type="text" name="id"/>
     <input type="submit" value="Edit Teacher">
 </form>
-
 <form action="/teacher/delete" method="post">
     <input type="text" name="id"/>
     <input type="submit" value="Delete Teacher">
 </form>
-
 <p/>
-
 <form action="/"><input type="submit" value="Back to Main Page"></form>
 </body>
 </html>

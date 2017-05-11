@@ -31,7 +31,6 @@ public class RootConfig {
     @Bean
     public LocalSessionFactoryBean localSessionFactoryBean(DataSource dataSource) {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-
         sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setPackagesToScan("entities");
         return sessionFactoryBean;
@@ -42,7 +41,6 @@ public class RootConfig {
         HibernateTransactionManager txManager
                 = new HibernateTransactionManager();
         txManager.setSessionFactory(sessionFactory);
-
         return txManager;
     }
 
