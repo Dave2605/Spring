@@ -24,6 +24,6 @@
     <input type="submit" value="Edit Teacher">
 </form:form>
 <p/>
-<form action="subject/all"><input type="submit" value="Back to Teachers"></form>
+<form action="/teacher/all"><input type="submit" value="Back to Teachers"></form>
 </body>
 </html>

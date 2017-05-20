@@ -30,6 +30,6 @@
     <input type="submit" value="Edit Subject">
 </form:form>
 <p/>
-<form action="subject/get"><input type="submit" value="Back to Subjects"></form>
+<form action="subject/all"><input type="submit" value="Back to Subjects"></form>
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = {"service, dao"},
@@ -33,6 +34,10 @@ public class RootConfig {
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
         sessionFactoryBean.setDataSource(dataSource);
         sessionFactoryBean.setPackagesToScan("entities");
+
+        Properties properties = new Properties();
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        sessionFactoryBean.setHibernateProperties(properties);
         return sessionFactoryBean;
     }
 
